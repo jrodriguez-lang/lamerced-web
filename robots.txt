@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://lamercedgt.com/sitemap.xml
