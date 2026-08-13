@@ -54,13 +54,13 @@
       "@type": "Place",
       "name": "La Merced — Salcajá",
       "address": {"@type":"PostalAddress","streetAddress":"Km 192.5, entrada viniendo de Xela, junto a Restaurante Rancho Rodríguez","addressLocality":"Salcajá","addressRegion":"Quetzaltenango","addressCountry":"GT"},
-      "openingHours": "Mo-Sa 08:00-18:00"
+      "openingHours": ["Mo-Fr 08:00-18:00","Sa 08:00-13:00"]
     },
     {
       "@type": "Place",
       "name": "La Merced — Quetzaltenango (Xela)",
       "address": {"@type":"PostalAddress","streetAddress":"6a calle 13-51, zona 3","addressLocality":"Quetzaltenango","addressRegion":"Quetzaltenango","addressCountry":"GT"},
-      "openingHours": ["Mo-Fr 08:00-16:00","Sa 08:00-12:00"]
+      "openingHours": ["Mo-Fr 08:00-18:00","Sa 08:00-13:00"]
     }
   ],
   "availableService": {
@@ -198,6 +198,8 @@
     .strip .row{grid-template-columns:1fr 1fr}.strip .cell:nth-child(2){border-right:none}
   }
 </style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18386454350"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','AW-18386454350');</script>
 </head>
 <body>
 
@@ -332,8 +334,8 @@
   <h2 class="s serif">Dos sedes, cerca de ti</h2>
   <p class="lead2">Cómodas para Quetzaltenango (Xela), Salcajá, Totonicapán, San Cristóbal, Cantel, Olintepeque y alrededores.</p>
   <div class="sedes">
-    <div class="sedecard"><h3><i>●</i> Salcajá</h3><p>Km 192.5, entrada viniendo de Xela, junto a Restaurante Rancho Rodríguez. Parqueo propio gratis.</p><p class="hrs">Lun a sáb · 8:00–18:00</p></div>
-    <div class="sedecard"><h3><i>●</i> Quetzaltenango (Xela)</h3><p>6a calle 13-51, zona 3, Quetzaltenango. 1 hora de parqueo gratis.</p><p class="hrs">Lun a vie · 8:00–16:00 · Sáb 8:00–12:00</p></div>
+    <div class="sedecard"><h3><i>●</i> Salcajá</h3><p>Km 192.5, entrada viniendo de Xela, junto a Restaurante Rancho Rodríguez. Parqueo propio gratis.</p><p class="hrs">Lun a Vie · 8:00–18:00 · Sáb 8:00–13:00</p></div>
+    <div class="sedecard"><h3><i>●</i> Quetzaltenango (Xela)</h3><p>6a calle 13-51, zona 3, Quetzaltenango. 1 hora de parqueo gratis.</p><p class="hrs">Lun a Vie · 8:00–18:00 · Sáb 8:00–13:00</p></div>
   </div>
 </div></section>
 
@@ -393,8 +395,7 @@
     var msg = (a.getAttribute("data-msg")||"") + ref;
     a.setAttribute("href", "https://wa.me/" + NUM + "?text=" + encodeURIComponent(msg));
     a.addEventListener("click", function(){
-      /* Descomenta cuando pegues tu ID de conversión de Google Ads:
-      if (typeof gtag === "function") { gtag('event','conversion',{'send_to':'AW-XXXXXXXXX/YYYYYYYY'}); } */
+      if (typeof gtag === "function") { gtag('event','conversion',{'send_to':'AW-18386454350/71dfCLax7-AcEM6OrL9E'}); }
     });
   });
 })();
