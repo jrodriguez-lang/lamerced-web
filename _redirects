@@ -1,2 +1,6 @@
 # Rutas antiguas de Wix -> nuevas
 /servicios   /estudios   301
+
+# Subdominio viejo de landings -> dominio principal
+https://eco.lamercedgt.com/*   https://lamercedgt.com/:splat   301!
+http://eco.lamercedgt.com/*    https://lamercedgt.com/:splat   301!

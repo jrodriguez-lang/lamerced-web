@@ -4,3 +4,15 @@
   from = "/servicios"
   to = "/estudios"
   status = 301
+
+[[redirects]]
+  from = "https://eco.lamercedgt.com/*"
+  to = "https://lamercedgt.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://eco.lamercedgt.com/*"
+  to = "https://lamercedgt.com/:splat"
+  status = 301
+  force = true
