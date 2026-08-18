@@ -16,3 +16,8 @@
   to = "https://lamercedgt.com/:splat"
   status = 301
   force = true
+
+[[redirects]]
+  from = "/post/*"
+  to = "/blog/"
+  status = 301

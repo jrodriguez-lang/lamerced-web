@@ -4,3 +4,7 @@
 # Subdominio viejo de landings -> dominio principal
 https://eco.lamercedgt.com/*   https://lamercedgt.com/:splat   301!
 http://eco.lamercedgt.com/*    https://lamercedgt.com/:splat   301!
+
+# Blog viejo de Wix (URLs /post/...) -> blog nuevo
+/post/la-cirugía-milagrosa-que-me-salvó-la-vida   /blog/   301
+/post/*                                          /blog/   301

@@ -1,5 +1,7 @@
 (function(){
-  var NUM="50241147508", PAGE="home";
+  var NUM="50241147508";
+  var p=location.pathname.replace(/\/+$/,"").split("/").filter(Boolean);
+  var PAGE=p.length?(p[0]==="blog"?"blog-"+(p[1]||"index"):p[p.length-1].replace(/\.html$/,"")):"home";
   var q=new URLSearchParams(location.search), src="web";
   if(q.get("gclid"))src="ads";
   else if(/(meta|facebook|instagram|tiktok|fb|ig)/i.test(q.get("utm_source")||""))src="meta";
