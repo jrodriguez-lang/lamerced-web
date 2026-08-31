@@ -1,0 +1,1398 @@
+<!DOCTYPE html><html lang="es-GT"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informes — Centro de Diagnóstico La Merced</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/styles.css">
+<style>
+/* ============ APP DE INFORMES ============ */
+body{background:var(--bg)}
+.app-wrap{max-width:1060px;margin:0 auto;padding:0 22px 90px}
+
+/* --- cabecera propia --- */
+.ihead{position:sticky;top:0;z-index:40;background:rgba(244,247,250,.94);
+  backdrop-filter:saturate(1.2) blur(8px);border-bottom:1px solid var(--line)}
+.ihead .row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 0}
+.ihead img.logo{height:44px;width:auto}
+.ihead .quien{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted)}
+.ihead .quien b{color:var(--navy)}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;
+  display:grid;place-items:center;font-size:12.5px;font-weight:600;letter-spacing:.02em}
+.linkout{font-size:14px;color:var(--teal-deep);cursor:pointer;font-weight:500}
+.linkout:hover{text-decoration:underline}
+
+/* --- pantalla de acceso --- */
+#acceso{min-height:100vh;display:grid;place-items:center;padding:30px 22px}
+.acc-box{background:var(--surface);border:1px solid var(--line);border-radius:24px;
+  padding:40px 38px;max-width:420px;width:100%;text-align:center;
+  box-shadow:0 18px 44px rgba(16,30,60,.09)}
+.acc-box img{height:64px;margin:0 auto 22px}
+.acc-box h1{font-family:'Fraunces',serif;font-weight:500;font-size:25px;color:var(--navy)}
+.acc-box p{color:var(--muted);font-size:14.5px;margin:8px 0 26px}
+.pinrow{display:flex;gap:10px;justify-content:center;margin-bottom:8px}
+.pinrow input{width:52px;height:62px;text-align:center;font-size:26px;font-weight:600;
+  border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--navy);
+  font-family:'Inter',sans-serif;-webkit-text-security:disc;text-security:disc}
+.pinrow input:focus{outline:none;border-color:var(--teal);background:#fff;
+  box-shadow:0 0 0 3px rgba(0,140,171,.14)}
+.acc-msg{min-height:22px;font-size:13.5px;margin:12px 0 4px}
+.acc-msg.err{color:#B3261E}.acc-msg.ok{color:#0f7a4f}.acc-msg.wait{color:var(--muted)}
+.acc-pie{font-size:11.5px;color:var(--muted);margin-top:22px;line-height:1.5}
+
+/* --- inicio --- */
+.saludo{padding:40px 0 6px}
+.saludo h1{font-family:'Fraunces',serif;font-weight:500;font-size:34px;line-height:1.15;color:var(--navy)}
+.saludo p{color:var(--muted);font-size:16px;margin-top:10px}
+.estudios{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-top:28px}
+.ecard{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:26px 24px;
+  cursor:pointer;transition:transform .14s,box-shadow .2s;display:flex;flex-direction:column;gap:8px}
+.ecard:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(16,30,60,.10)}
+.ecard.off{opacity:.5;cursor:not-allowed}.ecard.off:hover{transform:none;box-shadow:none}
+.ecard .ico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;
+  background:linear-gradient(150deg,#0A245D,#008CAB);color:#fff;font-size:21px;margin-bottom:6px}
+.ecard h3{font-family:'Fraunces',serif;font-weight:500;font-size:19px;color:var(--navy)}
+.ecard p{font-size:13.5px;color:var(--muted)}
+.ecard .tag{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--teal)}
+
+/* --- pasos --- */
+.pasos{display:flex;gap:6px;margin:26px 0 22px;flex-wrap:wrap}
+.paso{flex:1;min-width:120px;background:var(--surface);border:1px solid var(--line);
+  border-radius:13px;padding:11px 14px;font-size:13px;color:var(--muted);cursor:pointer;
+  display:flex;align-items:center;gap:9px;transition:.15s}
+.paso b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;
+  background:var(--tint);color:var(--muted);font-size:12px;flex:none}
+.paso.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.paso.on b{background:rgba(255,255,255,.22);color:#fff}
+.paso.done b{background:#0f7a4f;color:#fff}
+.paso.done{color:var(--ink)}
+
+.blk{background:var(--surface);border:1px solid var(--line);border-radius:20px;
+  padding:24px 26px;margin-bottom:16px}
+.blk h2{font-family:'Fraunces',serif;font-weight:500;font-size:20px;color:var(--navy);margin-bottom:4px}
+.blk .sub{font-size:13.5px;color:var(--muted);margin-bottom:18px}
+.blk h3{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--teal-deep);margin:22px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.blk h3:first-of-type{margin-top:6px}
+
+.g{display:grid;gap:12px 16px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}
+@media(max-width:820px){.g3,.g4,.g5{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.g2,.g3,.g4,.g5{grid-template-columns:1fr}}
+.f label{display:block;font-size:11.5px;font-weight:600;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.f input,.f select,.f textarea{width:100%;padding:9px 11px;border:1px solid var(--line);
+  border-radius:9px;font:inherit;font-size:14.5px;background:#fff;color:var(--ink)}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--teal);
+  box-shadow:0 0 0 3px rgba(0,140,171,.12)}
+.f textarea{min-height:80px;resize:vertical;line-height:1.55}
+.req{color:#C53380}
+.nota{background:var(--tint2);border-left:3px solid var(--teal);border-radius:8px;
+  padding:11px 14px;font-size:13px;color:var(--muted);margin:14px 0}
+.egbox{background:var(--tint2);border-radius:13px;padding:13px 17px;margin-top:14px;
+  display:flex;gap:26px;flex-wrap:wrap;align-items:center}
+.egbox small{display:block;font-size:11px;font-weight:600;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--muted)}
+.egbox b{font-size:17px;color:var(--navy);font-family:'Inter',sans-serif}
+
+/* --- tabla de mediciones --- */
+.tw{overflow-x:auto;margin:0 -4px}
+table.med{width:100%;border-collapse:collapse;font-size:13.5px;min-width:720px}
+table.med th{background:var(--tint2);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);padding:8px;text-align:left;border-bottom:1px solid var(--line);font-weight:600}
+table.med td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.med tr:last-child td{border-bottom:none}
+table.med input,table.med select{width:100%;padding:6px 7px;border:1px solid var(--line);
+  border-radius:7px;font:inherit;font-size:13.5px;text-align:center}
+.vaso{font-weight:600;white-space:nowrap;font-size:13.5px}
+.vaso small{display:block;font-weight:400;color:var(--muted);font-size:11px}
+.pc{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;white-space:nowrap}
+.chip{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700}
+.c-ok{background:#e6f5ee;color:#0f7a4f}.c-wa{background:#fdf3e0;color:#a86a00}
+.c-ba{background:#fdeceb;color:#B3261E}.c-na{background:var(--tint);color:var(--muted)}
+.alerta{background:#fdeceb;border-left:3px solid #B3261E;border-radius:8px;padding:9px 13px;
+  margin-top:9px;font-size:13px;color:#B3261E;font-weight:600}
+
+/* --- verificación --- */
+.vfila{display:flex;align-items:center;gap:11px;padding:7px 0;border-bottom:1px solid var(--line)}
+.vfila:last-child{border:none}
+.vchk{width:19px;height:19px;flex:none;accent-color:#0f7a4f}
+.vfila.pend{opacity:.62}
+
+/* --- adendum --- */
+.adlist{display:grid;gap:9px}
+.adit{display:flex;gap:11px;align-items:flex-start;background:var(--tint2);border-radius:11px;
+  padding:11px 14px;font-size:13.5px;line-height:1.5;cursor:pointer}
+.adit input{margin-top:3px;width:17px;height:17px;flex:none;accent-color:var(--navy)}
+.adit.sug{background:#fdf3e0;border-left:3px solid #a86a00}
+.adit b{color:var(--navy)}
+
+/* --- imágenes --- */
+#dz{border:2px dashed var(--line);border-radius:16px;padding:28px 20px;text-align:center;
+  background:var(--tint2);color:var(--muted);font-size:14px;transition:.15s}
+#dz.over{border-color:var(--teal);background:#e2f0f4}
+#dz b{display:block;color:var(--navy);font-size:16px;margin-bottom:5px;font-family:'Fraunces',serif}
+.galgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:13px;margin-top:18px}
+figure.gi{margin:0;border:1px solid var(--line);border-radius:13px;overflow:hidden;
+  background:var(--surface);position:relative}
+figure.gi img{display:block;width:100%;height:150px;object-fit:contain;background:#0c0f12}
+figure.gi figcaption{padding:7px 10px}
+.cap{font-size:12.5px;font-weight:600;outline:none;min-height:17px}
+.cap:focus{box-shadow:inset 0 -2px 0 var(--teal)}
+.cap:empty::before{content:attr(data-ph);color:#9fb0bd;font-weight:400}
+.gtools{position:absolute;top:6px;right:6px;display:flex;gap:4px}
+.gtools button{padding:1px 7px;font-size:12px;border-radius:6px;border:none;cursor:pointer;
+  background:rgba(255,255,255,.93);color:var(--teal-deep)}
+.gnum{position:absolute;top:6px;left:6px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;
+  padding:1px 8px;border-radius:20px;font-weight:600}
+
+/* --- botones --- */
+.btnrow{display:flex;gap:11px;flex-wrap:wrap;align-items:center;margin-top:22px}
+button.b{padding:11px 22px;border-radius:40px;border:1px solid var(--navy);background:var(--navy);
+  color:#fff;font:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:.14s}
+button.b:hover{background:#0d2f73}
+button.b.sec{background:#fff;color:var(--navy)}
+button.b.sec:hover{background:var(--tint2)}
+button.b.sm{padding:7px 15px;font-size:13.5px}
+button.b:disabled{opacity:.45;cursor:not-allowed}
+.spacer{flex:1}
+
+/* --- vista previa --- */
+.prev{background:#fff;border:1px solid var(--line);border-radius:14px;padding:30px 34px;
+  font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.62;color:#111;
+  max-height:560px;overflow:auto}
+.prev h1{font-size:15px;font-weight:700;letter-spacing:.06em;text-align:center;margin-bottom:3px}
+.prev .sec{font-size:11.5px;font-weight:700;letter-spacing:.09em;margin:16px 0 5px;
+  border-bottom:1px solid #ccc;padding-bottom:2px}
+.prev p{margin:0 0 7px;text-align:justify}
+.prev .kv{display:flex;flex-wrap:wrap;gap:2px 22px;font-size:12.5px;margin-bottom:2px}
+.prev .kv span b{font-weight:600}
+
+.oculto{display:none!important}
+
+/* ================= IMPRESIÓN ================= */
+#hoja{display:none}
+@media print{
+  /* el margen superior lo fija emitir() según el alto del membrete, y se
+     aplica a TODAS las hojas para que ninguna invada el papel timbrado */
+  body{background:#fff}
+  .ihead,#acceso,#inicio,#app,footer,.app-wrap>*:not(#hoja){display:none!important}
+  #hoja{display:block!important;font-family:'Inter',Arial,sans-serif;color:#000;
+    font-size:10.4pt;line-height:1.45}
+  .pg{page-break-after:always;break-after:page;position:relative}
+  .pg:last-child{page-break-after:auto;break-after:auto}
+  .doc-tit{text-align:center;font-size:12pt;font-weight:700;letter-spacing:.08em;margin-bottom:2mm}
+  .doc-sub{text-align:center;font-size:8.6pt;color:#333;margin-bottom:4mm;
+    padding-bottom:2mm;border-bottom:1px solid #000}
+  .doc-kv{display:flex;flex-wrap:wrap;gap:0 8mm;font-size:9.6pt;margin-bottom:1mm}
+  .doc-kv span{white-space:nowrap}
+  .doc-kv i{font-style:normal;color:#444}
+  .doc-sec{font-size:8.8pt;font-weight:700;letter-spacing:.1em;margin:4.5mm 0 1.5mm;
+    border-bottom:.6pt solid #999;padding-bottom:.6mm}
+  .doc-p{text-align:justify;margin:0 0 2mm}
+  .doc-li{margin:0 0 1.4mm;padding-left:6mm;text-indent:-6mm}
+  .doc-firmas{margin-top:7mm;display:flex;gap:8mm;align-items:flex-end;
+    break-inside:avoid;page-break-inside:avoid}
+  .doc-firma{flex:1;text-align:center}
+  .doc-firma img{height:19mm;margin:0 auto -1mm;display:block}
+  .doc-firma .ln{border-top:.8pt solid #000;margin:0 2mm 1.2mm}
+  .doc-firma b{display:block;font-size:9.4pt;line-height:1.25}
+  .doc-firma span{display:block;font-size:7.9pt;color:#333;line-height:1.3}
+  .doc-pie{margin-top:5mm;font-size:7.2pt;color:#555;border-top:.5pt solid #ccc;padding-top:1.2mm}
+  .im-hd{display:flex;justify-content:space-between;font-size:8.4pt;color:#333;
+    border-bottom:.8pt solid #000;padding-bottom:1.5mm;margin-bottom:3.5mm}
+  .im-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:4mm;align-content:start}
+  .im-grid figure{margin:0;border:.5pt solid #bbb;align-self:start;break-inside:avoid}
+  .im-grid img{display:block;width:100%;height:auto;max-height:var(--gh,70mm);
+    object-fit:contain;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .im-grid figcaption{font-size:8pt;font-weight:600;padding:1mm 1.6mm;border-top:.5pt solid #ddd}
+  .im-grid.n4{--gh:112mm}.im-grid.n6{--gh:70mm}
+}
+</style></head><body>
+
+<!-- ======================= ACCESO ======================= -->
+<div id="acceso">
+  <div class="acc-box">
+    <img src="../assets/logo-lamerced.png" alt="La Merced">
+    <h1>Informes</h1>
+    <p>Ingrese su código de acceso personal.</p>
+    <div class="pinrow">
+      <input type="password" inputmode="numeric" maxlength="1" autocomplete="off">
+      <input type="password" inputmode="numeric" maxlength="1" autocomplete="off">
+      <input type="password" inputmode="numeric" maxlength="1" autocomplete="off">
+      <input type="password" inputmode="numeric" maxlength="1" autocomplete="off">
+    </div>
+    <div class="acc-msg" id="accMsg"></div>
+    <div class="acc-pie">Uso exclusivo del personal del Centro de Diagnóstico La Merced.<br>
+      Esta página no almacena datos de pacientes en ningún servidor.</div>
+  </div>
+</div>
+
+<!-- ======================= CABECERA ======================= -->
+<div class="ihead oculto" id="ihead"><div class="app-wrap"><div class="row">
+  <img class="logo" src="../assets/logo-lamerced.png" alt="La Merced">
+  <div class="quien">
+    <span class="avatar" id="avat"></span>
+    <span>Sesión de <b id="quienNom"></b></span>
+    <span style="opacity:.4">·</span>
+    <span class="linkout" id="btnSalir">Salir</span>
+  </div>
+</div></div></div>
+
+<!-- ======================= INICIO ======================= -->
+<div id="inicio" class="app-wrap oculto">
+  <div class="saludo">
+    <h1 id="saludoTxt">Bienvenido</h1>
+    <p>Elija el informe que va a realizar.</p>
+  </div>
+  <div class="estudios">
+    <div class="ecard" onclick="abrirEstudio('dmf')">
+      <div class="ico">◑</div>
+      <div class="tag">Obstetricia</div>
+      <h3>Doppler maternofetal</h3>
+      <p>Protocolo general, perfil biofísico y flujometría Doppler con percentiles por edad gestacional.</p>
+    </div>
+    <div class="ecard off">
+      <div class="ico" style="background:var(--tint);color:var(--muted)">＋</div>
+      <div class="tag">Próximamente</div>
+      <h3>Otros estudios</h3>
+      <p>Obstétrico de control, tamizaje 11–14, Doppler arterial y venoso de miembros inferiores.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= INFORME ======================= -->
+<div id="app" class="app-wrap oculto">
+
+  <div class="pasos">
+    <div class="paso" data-p="1" onclick="irA(1)"><b>1</b> Paciente</div>
+    <div class="paso" data-p="2" onclick="irA(2)"><b>2</b> Imágenes</div>
+    <div class="paso" data-p="3" onclick="irA(3)"><b>3</b> Mediciones</div>
+    <div class="paso" data-p="4" onclick="irA(4)"><b>4</b> Informe</div>
+  </div>
+
+  <!-- ---------- PASO 1 ---------- -->
+  <div class="pane" data-p="1">
+    <div class="blk">
+      <h2>Datos de la paciente</h2>
+      <div class="sub">Los campos marcados con <span class="req">*</span> aparecen en el informe impreso.</div>
+      <div class="g g3 f">
+        <div><label>Nombre completo <span class="req">*</span></label><input id="pac"></div>
+        <div><label>Edad (años) <span class="req">*</span></label><input id="edad" type="number" min="10" max="60"></div>
+        <div><label>Expediente / DPI</label><input id="exp"></div>
+        <div><label>Teléfono / WhatsApp</label><input id="tel"></div>
+        <div><label>Gesta / Para / Cesáreas / Abortos</label><input id="gpca" placeholder="G2 P1 C0 A0"></div>
+        <div><label>Fecha del estudio <span class="req">*</span></label><input id="fecha" type="date"></div>
+        <div><label>Médico referente <span class="req">*</span></label><input id="ref"></div>
+        <div><label>Sede <span class="req">*</span></label><select id="sede">
+          <option>Quetzaltenango</option><option>Salcajá</option></select></div>
+        <div><label>Indicación del estudio <span class="req">*</span></label><input id="indic"
+          placeholder="Control de bienestar fetal"></div>
+      </div>
+
+      <h3>Antecedentes relevantes</h3>
+      <div class="g g4 f">
+        <div><label>Preeclampsia previa</label><select id="aPe"><option>No</option><option>Sí</option></select></div>
+        <div><label>Hipertensión crónica</label><select id="aHta"><option>No</option><option>Sí</option></select></div>
+        <div><label>Diabetes</label><select id="aDm"><option>No</option><option>Sí</option></select></div>
+        <div><label>Aspirina en dosis baja</label><select id="aAsa"><option>No</option><option>Sí</option></select></div>
+      </div>
+      <div class="f" style="margin-top:12px"><label>Otros antecedentes</label><input id="aOtro"></div>
+
+      <h3>Edad gestacional</h3>
+      <div class="nota">El percentil de cada índice nunca es más exacto que la datación en que se apoya.
+        Por eso el origen de la edad gestacional es obligatorio y se imprime en el informe.</div>
+      <div class="g g4 f">
+        <div><label>Origen <span class="req">*</span></label><select id="egOrigen">
+          <option value="lcc">LCC del primer trimestre</option>
+          <option value="fum">Fecha de última menstruación</option>
+          <option value="bio">Biometría de este estudio</option>
+          <option value="eco">Ecografía previa</option></select></div>
+        <div><label>Semanas <span class="req">*</span></label><input id="egSem" type="number" min="11" max="42" value="32"></div>
+        <div><label>Días</label><input id="egDia" type="number" min="0" max="6" value="0"></div>
+        <div><label>Fecha probable de parto</label><input id="fpp" readonly style="background:var(--tint2)"></div>
+      </div>
+      <div class="egbox">
+        <div><small>Edad gestacional</small><b id="egTxt">32+0</b></div>
+        <div><small>Días</small><b id="egDias">224</b></div>
+        <div><small>Origen</small><b id="egOrigTxt" style="font-size:14px">LCC del primer trimestre</b></div>
+      </div>
+      <div class="btnrow"><div class="spacer"></div>
+        <button class="b" onclick="irA(2)">Continuar a imágenes →</button></div>
+    </div>
+  </div>
+
+  <!-- ---------- PASO 2 ---------- -->
+  <div class="pane oculto" data-p="2">
+    <div class="blk">
+      <h2>Imágenes del estudio</h2>
+      <div class="sub">Arrastre las capturas del ecógrafo, péguelas con Ctrl + V o selecciónelas.
+        Se reducen automáticamente y se incrustan en el informe.</div>
+      <div id="dz">
+        <b>Arrastre aquí las imágenes</b>
+        <span>o <button class="b sec sm" type="button" onclick="document.getElementById('fi').click()">seleccionar archivos</button>
+          &nbsp;·&nbsp; también puede pegar con Ctrl + V</span>
+        <input type="file" id="fi" accept="image/*" multiple hidden>
+      </div>
+      <div class="g g3 f" style="margin-top:16px">
+        <div><label>Imágenes por hoja</label><select id="galN">
+          <option value="4">4 por hoja (2 × 2)</option>
+          <option value="6" selected>6 por hoja (2 × 3)</option></select></div>
+        <div><label>Cargadas</label><div style="padding-top:7px"><b id="galN2">0</b>
+          <button class="b sec sm" style="margin-left:10px" onclick="galVaciar()">Quitar todas</button></div></div>
+        <div><label>Lectura automática</label>
+          <button class="b sec" id="btnLumi" disabled style="width:100%">Leer con Lumi (próximamente)</button></div>
+      </div>
+      <div class="nota">Las imágenes viven únicamente en esta pestaña. Al cerrarla se pierden;
+        el PDF descargado es el archivo permanente del estudio.</div>
+      <div id="gal" class="galgrid"></div>
+      <div class="btnrow"><button class="b sec" onclick="irA(1)">← Paciente</button>
+        <div class="spacer"></div>
+        <button class="b" onclick="irA(3)">Continuar a mediciones →</button></div>
+    </div>
+  </div>
+
+  <!-- ---------- PASO 3 ---------- -->
+  <div class="pane oculto" data-p="3">
+
+    <div class="blk">
+      <h2>Protocolo general de evaluación</h2>
+      <div class="sub">Es el bloque que siempre acompaña al Doppler maternofetal.</div>
+      <h3>Biometría y peso fetal</h3>
+      <div class="g g5 f">
+        <div><label>DBP (mm)</label><input id="dbp" type="number" step="0.1"></div>
+        <div><label>CC (mm)</label><input id="cc" type="number" step="0.1"></div>
+        <div><label>CA (mm)</label><input id="ca" type="number" step="0.1"></div>
+        <div><label>LF (mm)</label><input id="lf" type="number" step="0.1"></div>
+        <div><label>Peso fetal estimado</label><div class="egbox" style="margin:0;padding:8px 12px">
+          <div><b id="pfe">—</b> <span class="chip c-na" id="pfeTag">—</span></div></div></div>
+      </div>
+      <h3>Vitalidad, líquido y anexos</h3>
+      <div class="g g4 f">
+        <div><label>Frecuencia cardiaca fetal (lpm)</label><input id="fcf" type="number"></div>
+        <div><label>Ritmo</label><select id="ritmo"><option>sinusal</option><option>irregular</option></select></div>
+        <div><label>Índice de líquido amniótico (cm)</label><input id="ila" type="number" step="0.1"></div>
+        <div><label>Bolsillo vertical mayor (cm)</label><input id="bvm" type="number" step="0.1"></div>
+        <div><label>Situación</label><select id="situ">
+          <option>longitudinal</option><option>transversa</option><option>oblicua</option></select></div>
+        <div><label>Presentación</label><select id="pres">
+          <option>cefálica</option><option>podálica</option><option>no determinada</option></select></div>
+        <div><label>Placenta — localización</label><select id="plac">
+          <option>anterior</option><option>posterior</option><option>fúndica</option>
+          <option>lateral derecha</option><option>lateral izquierda</option><option>previa</option></select></div>
+        <div><label>Grado de maduración</label><select id="grado">
+          <option>0</option><option>I</option><option selected>II</option><option>III</option></select></div>
+        <div><label>Cordón umbilical</label><select id="cordon">
+          <option>trivascular</option><option>con dos vasos</option></select></div>
+        <div><label>Circular de cordón</label><select id="circular">
+          <option>no observada</option><option>observada al cuello fetal</option></select></div>
+        <div><label>Cérvix</label><select id="cervix">
+          <option>cerrado, sin líquido en su interior</option><option>acortado</option></select></div>
+        <div><label>Longitud cervical (mm)</label><input id="lcerv" type="number" step="0.1"></div>
+      </div>
+      <div class="egbox"><div><small>Líquido amniótico</small><span class="chip c-na" id="laTag">—</span></div></div>
+    </div>
+
+    <div class="blk">
+      <h2>Perfil biofísico</h2>
+      <div class="sub">Puntaje de Manning. Si no se realizó registro cardiotocográfico, el puntaje se calcula sobre 8.</div>
+      <div class="g g5 f">
+        <div><label>Movimientos respiratorios</label><select class="pbf"><option value="2">2 — presentes</option><option value="0">0 — ausentes</option></select></div>
+        <div><label>Movimientos corporales</label><select class="pbf"><option value="2">2 — tres o más</option><option value="0">0 — menos de tres</option></select></div>
+        <div><label>Tono fetal</label><select class="pbf"><option value="2">2 — presente</option><option value="0">0 — ausente</option></select></div>
+        <div><label>Líquido amniótico</label><select class="pbf"><option value="2">2 — bolsillo &gt; 2 cm</option><option value="0">0 — bolsillo ≤ 2 cm</option></select></div>
+        <div><label>Reactividad (NST)</label><select class="pbf"><option value="-1">No realizado</option><option value="2">2 — reactivo</option><option value="0">0 — no reactivo</option></select></div>
+      </div>
+      <div class="egbox"><div><small>Puntaje</small><b id="pbfTot">—</b></div>
+        <div><span class="chip c-na" id="pbfTag">—</span></div></div>
+    </div>
+
+    <div class="blk">
+      <h2>Flujometría Doppler</h2>
+      <div class="sub">Escriba los valores que midió en el equipo. Si deja IP o IR vacíos y hay VSM,
+        VDF y velocidad media, se calculan solos. El percentil se calcula para
+        <b id="egRecuerdo">32+0</b> semanas.</div>
+      <div class="tw"><table class="med" id="tmed">
+        <thead><tr><th style="width:20%">Vaso</th><th>VSM<br>(cm/s)</th><th>VDF<br>(cm/s)</th>
+          <th>V media<br>(cm/s)</th><th>IP</th><th>IR</th><th>S/D</th>
+          <th style="width:23%">Percentil</th></tr></thead>
+        <tbody>
+        <tr data-v="utaD"><td class="vaso">A. uterina derecha<small>Cruce con ilíaca externa</small></td>
+          <td><input type="number" step="0.1" data-f="vsm"></td><td><input type="number" step="0.1" data-f="vdf"></td>
+          <td><input type="number" step="0.1" data-f="vm"></td><td><input type="number" step="0.01" data-f="ip"></td>
+          <td><input type="number" step="0.01" data-f="ir"></td><td><input type="number" step="0.01" data-f="sd"></td>
+          <td class="pc" data-out></td></tr>
+        <tr data-v="utaI"><td class="vaso">A. uterina izquierda<small>Cruce con ilíaca externa</small></td>
+          <td><input type="number" step="0.1" data-f="vsm"></td><td><input type="number" step="0.1" data-f="vdf"></td>
+          <td><input type="number" step="0.1" data-f="vm"></td><td><input type="number" step="0.01" data-f="ip"></td>
+          <td><input type="number" step="0.01" data-f="ir"></td><td><input type="number" step="0.01" data-f="sd"></td>
+          <td class="pc" data-out></td></tr>
+        <tr data-v="utaM" style="background:var(--tint2)"><td class="vaso">IP medio de uterinas<small>Automático</small></td>
+          <td colspan="3" style="color:var(--muted);font-size:12px">—</td>
+          <td class="pc" data-auto="ipm"></td><td colspan="2" style="color:var(--muted);font-size:12px">—</td>
+          <td class="pc" data-out></td></tr>
+        <tr data-v="ua"><td class="vaso">Arteria umbilical<small>Asa libre de cordón</small></td>
+          <td><input type="number" step="0.1" data-f="vsm"></td><td><input type="number" step="0.1" data-f="vdf"></td>
+          <td><input type="number" step="0.1" data-f="vm"></td><td><input type="number" step="0.01" data-f="ip"></td>
+          <td><input type="number" step="0.01" data-f="ir"></td><td><input type="number" step="0.01" data-f="sd"></td>
+          <td class="pc" data-out></td></tr>
+        <tr data-v="acm"><td class="vaso">A. cerebral media<small>Tercio proximal, sin corregir ángulo</small></td>
+          <td><input type="number" step="0.1" data-f="vsm"></td><td><input type="number" step="0.1" data-f="vdf"></td>
+          <td><input type="number" step="0.1" data-f="vm"></td><td><input type="number" step="0.01" data-f="ip"></td>
+          <td><input type="number" step="0.01" data-f="ir"></td><td><input type="number" step="0.01" data-f="sd"></td>
+          <td class="pc" data-out></td></tr>
+        <tr data-v="rcp" style="background:var(--tint2)"><td class="vaso">Índice cerebroplacentario<small>IP ACM ÷ IP AU — automático</small></td>
+          <td colspan="3" style="color:var(--muted);font-size:12px">—</td>
+          <td class="pc" data-auto="rcp"></td><td colspan="2" style="color:var(--muted);font-size:12px">—</td>
+          <td class="pc" data-out></td></tr>
+        <tr data-v="dv"><td class="vaso">Ductus venoso<small>Muestra 0.5–1 mm, ángulo &lt; 30°</small></td>
+          <td><input type="number" step="0.1" data-f="vsm" placeholder="Vs"></td>
+          <td><input type="number" step="0.1" data-f="vdf" placeholder="Va"></td>
+          <td><input type="number" step="0.1" data-f="vm" placeholder="TAMXV"></td>
+          <td><input type="number" step="0.01" data-f="ip" placeholder="IPV"></td>
+          <td colspan="2"><select data-f="ondaA"><option value="pos">Onda «a» positiva</option>
+            <option value="aus">Onda «a» ausente</option><option value="rev">Onda «a» reversa</option></select></td>
+          <td class="pc" data-out></td></tr>
+        <tr data-v="vu"><td class="vaso">Vena umbilical<small>Asa libre / intraabdominal</small></td>
+          <td><input type="number" step="0.1" data-f="vsm" placeholder="V pico"></td>
+          <td><input type="number" step="0.1" data-f="diam" placeholder="Ø mm"></td>
+          <td><input type="number" step="0.1" data-f="vm" placeholder="V media"></td>
+          <td colspan="3"><select data-f="puls"><option value="no">Sin pulsaciones</option>
+            <option value="simple">Pulsación simple</option><option value="doble">Pulsación doble</option>
+            <option value="triple">Pulsación triple</option></select></td>
+          <td class="pc" data-out></td></tr>
+        </tbody></table></div>
+
+      <div class="g g3 f" style="margin-top:16px">
+        <div><label>Flujo diastólico umbilical</label><select id="fdAU">
+          <option value="pos">Presente y anterógrado</option>
+          <option value="aus">Ausente</option><option value="rev">Reverso</option></select></div>
+        <div><label>Escotadura protodiastólica uterina</label><select id="notch">
+          <option value="no">Ausente bilateral</option><option value="uni">Unilateral</option>
+          <option value="bi">Bilateral</option></select></div>
+        <div><label>Sitio de muestreo del cordón</label><select id="sitioUA">
+          <option>asa libre</option><option>extremo placentario</option><option>extremo fetal</option></select></div>
+      </div>
+      <div id="alertas"></div>
+      <div class="btnrow"><button class="b sec" onclick="irA(2)">← Imágenes</button>
+        <div class="spacer"></div>
+        <button class="b" onclick="irA(4)">Continuar al informe →</button></div>
+    </div>
+  </div>
+
+  <!-- ---------- PASO 4 ---------- -->
+  <div class="pane oculto" data-p="4">
+    <div class="blk">
+      <h2>Verificación de los valores</h2>
+      <div class="sub">Confirme cada dato antes de emitir el informe. Debe estar todo marcado.</div>
+      <div id="verif"></div>
+      <div class="btnrow" style="margin-top:14px">
+        <button class="b sec sm" onclick="marcarTodo(true)">Marcar todo</button>
+        <button class="b sec sm" onclick="marcarTodo(false)">Desmarcar todo</button>
+        <div class="spacer"></div><span id="verifCnt" style="font-size:13.5px;color:var(--muted)"></span>
+      </div>
+    </div>
+
+    <div class="blk">
+      <h2>Hallazgos del adendum</h2>
+      <div class="sub">Las frases resaltadas las sugiere el motor de percentiles. Marque las que apliquen;
+        el texto entra tal cual en el informe.</div>
+      <div class="adlist" id="adendum"></div>
+    </div>
+
+    <div class="blk">
+      <h2>Conclusiones</h2>
+      <div class="sub">Se redactan solas con el estilo del machote. Puede editarlas por completo.</div>
+      <div class="f"><textarea id="concl" style="min-height:150px"></textarea></div>
+      <div class="btnrow" style="margin-top:10px">
+        <button class="b sec sm" onclick="redactarConclusion(true)">Volver a redactar</button>
+      </div>
+      <h3>Recomendación</h3>
+      <div class="f"><textarea id="reco" style="min-height:60px"
+        placeholder="Se sugiere control Doppler en …"></textarea></div>
+    </div>
+
+    <div class="blk">
+      <h2>Emisión</h2>
+      <div class="g g4 f">
+        <div><label>No. de informe</label><input id="folio"></div>
+        <div><label>Estudio realizado por</label><input id="operador" readonly style="background:var(--tint2)"></div>
+        <div><label>Firma del informe</label><select id="firmante">
+          <option value="img">Firma y sello del Dr. Lizama</option>
+          <option value="ln">Línea en blanco para firmar a mano</option></select></div>
+        <div><label>Margen superior (mm)</label><input id="margen" type="number" value="26" min="0" max="80"
+          title="Espacio que deja libre el membrete del papel"></div>
+      </div>
+      <div class="nota">El PDF sale en texto plano, sin logotipo ni colores, pensado para imprimirse
+        sobre el papel membretado del centro.</div>
+
+      <h3>Vista previa</h3>
+      <div class="prev" id="prev"></div>
+
+      <div class="btnrow">
+        <button class="b sec" onclick="irA(3)">← Mediciones</button>
+        <button class="b sec" onclick="guardarBorrador()">Guardar borrador</button>
+        <div class="spacer"></div>
+        <button class="b" id="btnPdf" onclick="emitir()">Descargar PDF / Imprimir</button>
+      </div>
+      <div id="emisionMsg" style="font-size:13.5px;color:#B3261E;margin-top:10px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= HOJA IMPRIMIBLE ======================= -->
+<div id="hoja"></div>
+
+<script>
+/* ==========================================================
+   MOTOR DE PERCENTILES (idéntico al validado contra las tablas)
+   ========================================================== */
+const Z95 = 1.6448536, Z90 = 1.2815516;
+
+function normCDF(z){
+  const s = z<0?-1:1, x = Math.abs(z)/Math.SQRT2;
+  const t = 1/(1+0.3275911*x);
+  const y = 1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);
+  return 0.5*(1+s*y);
+}
+const pct = z => normCDF(z)*100;
+const fmtPc = p => p<0.1?"<0.1":p>99.9?">99.9":(p<1||p>99?p.toFixed(1):Math.round(p).toString());
+
+/* ---------- Arterias uterinas: Gómez 2008 (ln, EG en días) ---------- */
+const UTA = {
+  min:77, max:287,
+  lnMed: d => 1.39 - 0.012*d + 0.0000198*d*d,
+  sd:    d => 0.272 - 0.000259*d,
+  z: (v,d) => (Math.log(v) - UTA.lnMed(d)) / UTA.sd(d),
+  cent: (zk,d) => Math.exp(UTA.lnMed(d) + zk*UTA.sd(d)),
+  dir: "alto"
+};
+
+/* ---------- Arteria umbilical IP: Ciobanu 2019 / FMF ---------- */
+const UA = {
+  min:140, max:293,
+  med: d => 1.63912648221 - 0.00300846979108*d,
+  sd:  d => 0.0858534073192 - 0.000284284313746*d + 9.27118144884e-7*d*d,
+  z: (v,d) => (Math.log10(v) - Math.log10(UA.med(d))) / UA.sd(d),
+  cent: (zk,d) => Math.pow(10, Math.log10(UA.med(d)) + zk*UA.sd(d)),
+  dir: "alto"
+};
+
+/* ---------- Arteria cerebral media IP: Ciobanu 2019 / FMF ---------- */
+const ACM = {
+  min:140, max:293,
+  logMed: d => 0.284503173894 - 0.00662710759612*d + 6.16947070923e-5*d*d - 1.43548509411e-7*d*d*d,
+  sd:     d => 0.167387688085 - 0.00118193046215*d + 3.21595492188e-6*d*d,
+  z: (v,d) => (Math.log10(v) - ACM.logMed(d)) / ACM.sd(d),
+  cent: (zk,d) => Math.pow(10, ACM.logMed(d) + zk*ACM.sd(d)),
+  dir: "bajo"
+};
+
+/* ---------- Ratio cerebroplacentario: Ciobanu 2019 / FMF ---------- */
+const RCP = {
+  min:140, max:293,
+  logMed: d => -0.357975902761 + 0.000630650132877*d + 3.09451153171e-5*d*d - 9.2316133128e-8*d*d*d,
+  sd:     d =>  0.191050944975 - 0.0011995334931*d + 3.25994166657e-6*d*d,
+  z: (v,d) => (Math.log10(v) - RCP.logMed(d)) / RCP.sd(d),
+  cent: (zk,d) => Math.pow(10, RCP.logMed(d) + zk*RCP.sd(d)),
+  dir: "bajo"
+};
+
+/* ---------- Ductus venoso IPV: Gürses 2021 suavizado (EG en semanas) ---------- */
+const DV = {
+  min:77, max:287,
+  logMed: d => { const w=d/7; return 0.2661779488 - 0.02847618104*w + 0.0003210541274*w*w; },
+  sd:     d => { const w=d/7; return 0.003721245889 + 0.004157963428*w; },
+  z: (v,d) => (Math.log10(v) - DV.logMed(d)) / DV.sd(d),
+  cent: (zk,d) => Math.pow(10, DV.logMed(d) + zk*DV.sd(d)),
+  dir: "alto"
+};
+
+/* ---------- VSM ACM en MoM: Mari 2000 (EG en semanas decimales) ---------- */
+const VSM_ACM = {
+  min:126, max:294,
+  med: d => Math.exp(2.31 + 0.04643*(d/7)),
+  mom: (v,d) => v / VSM_ACM.med(d)
+};
+
+/* ---------- Arteria umbilical IR y S/D: Acharya 2005 (tabla p5/p50/p95) ---------- */
+const ACHARYA = {
+  ir:{19:[0.66,0.77,0.88],20:[0.65,0.75,0.87],21:[0.64,0.74,0.85],22:[0.62,0.73,0.84],
+      23:[0.61,0.72,0.83],24:[0.60,0.71,0.82],25:[0.58,0.69,0.81],26:[0.57,0.68,0.80],
+      27:[0.56,0.67,0.79],28:[0.55,0.66,0.78],29:[0.53,0.65,0.77],30:[0.52,0.64,0.76],
+      31:[0.51,0.63,0.76],32:[0.50,0.61,0.75],33:[0.48,0.60,0.74],34:[0.47,0.59,0.73],
+      35:[0.46,0.58,0.72],36:[0.45,0.57,0.71],37:[0.43,0.56,0.70],38:[0.42,0.55,0.70],
+      39:[0.41,0.54,0.69],40:[0.40,0.53,0.68],41:[0.39,0.52,0.67]},
+  sd:{19:[2.93,4.28,6.26],20:[2.83,4.11,5.99],21:[2.70,3.91,5.67],22:[2.60,3.77,5.45],
+      23:[2.51,3.62,5.22],24:[2.41,3.48,5.02],25:[2.33,3.35,4.83],26:[2.24,3.23,4.66],
+      27:[2.17,3.12,4.50],28:[2.09,3.02,4.36],29:[2.03,2.92,4.22],30:[1.96,2.83,4.10],
+      31:[1.90,2.75,3.98],32:[1.84,2.67,3.87],33:[1.79,2.60,3.77],34:[1.73,2.53,3.68],
+      35:[1.68,2.46,3.59],36:[1.64,2.40,3.51],37:[1.59,2.34,3.43],38:[1.55,2.28,3.36],
+      39:[1.51,2.23,3.29],40:[1.47,2.18,3.22],41:[1.43,2.13,3.16]}
+};
+function acharyaParams(tab, d){
+  const w = d/7, lo = Math.floor(w), hi = lo+1, f = w-lo;
+  const a = tab[Math.max(19,Math.min(41,lo))], b = tab[Math.max(19,Math.min(41,hi))] || a;
+  const v = i => a[i] + (b[i]-a[i])*f;
+  const p5=v(0), p50=v(1), p95=v(2);
+  const sd = ((Math.log(p50)-Math.log(p5)) + (Math.log(p95)-Math.log(p50))) / (2*Z95);
+  return {p5,p50,p95,lnMed:Math.log(p50),sd};
+}
+const UA_IR = { min:133, max:290, dir:"alto",
+  z:(v,d)=>{const p=acharyaParams(ACHARYA.ir,d); return (Math.log(v)-p.lnMed)/p.sd;},
+  cent:(zk,d)=>{const p=acharyaParams(ACHARYA.ir,d); return Math.exp(p.lnMed+zk*p.sd);} };
+const UA_SD = { min:133, max:290, dir:"alto",
+  z:(v,d)=>{const p=acharyaParams(ACHARYA.sd,d); return (Math.log(v)-p.lnMed)/p.sd;},
+  cent:(zk,d)=>{const p=acharyaParams(ACHARYA.sd,d); return Math.exp(p.lnMed+zk*p.sd);} };
+
+/* ---------- Vena umbilical: Spurway 2017 (EG en días) ---------- */
+const SPUR = {
+  diam:{p5:[-8.75780405,0.115346739,-0.00021954,0],
+        p50:[-10.8489549,0.140566158,-0.00026341,0],
+        p95:[-10.8417373,0.146221486,-0.00026603,0]},
+  vel: {p5:[7.826576,0.019795,0,0], p50:[8.246923,0.039231,0,0], p95:[7.952513,0.066528,0,0]},
+  flujo:{p5:[525.2819658,-9.76528029,0.058617162,-0.00010142],
+         p50:[795.9752009,-14.7420598,0.087580236,-0.00014847],
+         p95:[1085.348224,-20.0188935,0.117912257,-0.00019569]}
+};
+const poly = (c,d) => c[0] + c[1]*d + c[2]*d*d + c[3]*d*d*d;
+function spurwayPc(kind, v, d){
+  const s = SPUR[kind], p5=poly(s.p5,d), p50=poly(s.p50,d), p95=poly(s.p95,d);
+  if(v<=0) return null;
+  const sd = ((Math.log(p50)-Math.log(p5))+(Math.log(p95)-Math.log(p50)))/(2*Z95);
+  return {p5,p50,p95,z:(Math.log(v)-Math.log(p50))/sd};
+}
+// Flujo VU (mL/min) = pi*(D/2)^2 * Vmedia * 60/1000  [D en mm -> cm]
+const flujoVU = (dmm, vmed) => Math.PI*Math.pow(dmm/20,2)*vmed*60;
+
+/* ---------- Peso fetal: Hadlock ---------- */
+// Hadlock 4 (DBP, CC, CA, LF en cm) -> log10(peso g)
+function hadlock4(dbp,cc,ca,lf){
+  const B=dbp/10,H=cc/10,A=ca/10,F=lf/10;
+  const l = 1.3596 - 0.00386*A*F + 0.0064*H + 0.00061*B*A + 0.0424*A + 0.174*F;
+  return Math.pow(10,l);
+}
+// Mediana Hadlock 1991 + desviación proporcional (CV) del 11 %,
+// según la implementación de Gardosi 1992 / Mikolajczyk 2011.
+function pesoPc(g,d){
+  const w=d/7;
+  const med = Math.exp(0.578 + 0.332*w - 0.00354*w*w);
+  const cv = 0.11;
+  return {med, z:(g-med)/(med*cv), cv};
+}
+
+/* ==========================================================
+   ACCESO
+   ========================================================== */
+const USR = [
+{"n":"Johnny Rodríguez","s":"cVK8Bpr6KuAipsd/lwbySw==","h":"J0qaUADyGKmwCIAHaXrJVD04V/rEwF7jydpND8xb7Ls="},
+{"n":"Jorge Calderón","s":"xk6ccLSRpgb3jmQA2wA5cw==","h":"Q3Gb5a0MC5nvbggDMtI7df47WGJrcp/sfDy7ImtViNQ="}
+];
+const ITER = 600000;
+/* Si se define, la validación se hace en el servidor y este archivo deja de decidir nada.
+   Fase 2: apuntar a https://n8n.lamercedgt.com/webhook/informes-acceso */
+const AUTH_URL = "";
+
+const b64a = b => Uint8Array.from(atob(b), c=>c.charCodeAt(0));
+const ab64  = a => btoa(String.fromCharCode(...new Uint8Array(a)));
+
+async function derivar(pin, saltB64){
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(pin),
+    {name:"PBKDF2"}, false, ["deriveBits"]);
+  const bits = await crypto.subtle.deriveBits(
+    {name:"PBKDF2", salt:b64a(saltB64), iterations:ITER, hash:"SHA-256"}, key, 256);
+  return ab64(bits);
+}
+const CRIPTO_OK = () => !!(window.crypto && window.crypto.subtle && window.crypto.subtle.deriveBits);
+
+async function verificar(pin){
+  if(!AUTH_URL && !CRIPTO_OK())
+    throw new Error("Este navegador no expone crypto.subtle en este contexto.");
+  if(AUTH_URL){
+    const r = await fetch(AUTH_URL,{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({pin})});
+    if(!r.ok) throw new Error("red");
+    const j = await r.json();
+    return j && j.ok ? {nombre:j.nombre, token:j.token} : null;
+  }
+  for(const u of USR){
+    if(await derivar(pin, u.s) === u.h) return {nombre:u.n, token:null};
+  }
+  return null;
+}
+
+var SESION = null; let intentos = 0, bloqueoHasta = 0;
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const pins = $$(".pinrow input");
+
+pins.forEach((el,i)=>{
+  el.addEventListener("input", ()=>{
+    el.value = el.value.replace(/\D/g,"").slice(0,1);
+    if(el.value && i<3) pins[i+1].focus();
+    if(pins.every(p=>p.value)) intentar();
+  });
+  el.addEventListener("keydown", e=>{
+    if(e.key==="Backspace" && !el.value && i>0){ pins[i-1].focus(); pins[i-1].value=""; e.preventDefault(); }
+  });
+});
+function msgAcc(t,c){ const m=$("#accMsg"); m.textContent=t; m.className="acc-msg "+(c||""); }
+function limpiarPin(){ pins.forEach(p=>p.value=""); pins[0].focus(); }
+
+async function intentar(){
+  const ahora = Date.now();
+  if(ahora < bloqueoHasta){
+    msgAcc("Demasiados intentos. Espere "+Math.ceil((bloqueoHasta-ahora)/1000)+" segundos.","err");
+    limpiarPin(); return;
+  }
+  const pin = pins.map(p=>p.value).join("");
+  if(pin.length<4) return;
+  msgAcc("Verificando…","wait");
+  pins.forEach(p=>p.disabled=true);
+  let r=null;
+  try{ r = await verificar(pin); }
+  catch(e){
+    msgAcc(CRIPTO_OK() ? "No se pudo verificar. Revise la conexión."
+      : "Abra esta página desde lamercedgt.com/informes. Al abrir el archivo suelto, el navegador bloquea la verificación.","err");
+    pins.forEach(p=>p.disabled=false); limpiarPin(); return; }
+  pins.forEach(p=>p.disabled=false);
+  if(r){ SESION = r; intentos = 0; msgAcc("Correcto","ok"); setTimeout(entrar, 250); }
+  else{
+    intentos++;
+    if(intentos>=3){ bloqueoHasta = Date.now() + 30000*Math.pow(2, intentos-3); }
+    msgAcc("Código incorrecto.","err");
+    limpiarPin();
+  }
+}
+function entrar(){
+  $("#acceso").classList.add("oculto"); $("#acceso").style.display="none";
+  $("#ihead").classList.remove("oculto");
+  $("#inicio").classList.remove("oculto");
+  const n = SESION.nombre, ini = n.split(" ").map(x=>x[0]).slice(0,2).join("");
+  $("#quienNom").textContent = n; $("#avat").textContent = ini;
+  const h = new Date().getHours();
+  const sal = h<12 ? "Buenos días" : h<19 ? "Buenas tardes" : "Buenas noches";
+  $("#saludoTxt").textContent = `${sal}, ${n.split(" ")[0]}.`;
+  $("#operador").value = (n==="Jorge Calderón" ? "TR " : "Lic. ") + n;
+}
+$("#btnSalir").addEventListener("click", ()=>{
+  if(GAL.length || ($("#pac").value||"").trim()){
+    if(!confirm("Los datos están guardados en esta pestaña. Al salir se perderán. ¿Salir?")) return;
+  }
+  location.reload();
+});
+setTimeout(()=>{ if(pins[0]) pins[0].focus(); }, 200);
+
+/* ==========================================================
+   NAVEGACIÓN
+   ========================================================== */
+let PASO = 1;
+function abrirEstudio(){
+  $("#inicio").classList.add("oculto");
+  $("#app").classList.remove("oculto");
+  $("#folio").value = folioNuevo();
+  $("#fecha").value = new Date().toISOString().slice(0,10);
+  irA(1); recalcular();
+}
+function irA(p){
+  PASO = p;
+  $$(".pane").forEach(x=> x.classList.toggle("oculto", +x.dataset.p !== p));
+  $$(".paso").forEach(x=>{
+    x.classList.toggle("on", +x.dataset.p === p);
+    x.classList.toggle("done", +x.dataset.p < p);
+  });
+  window.scrollTo({top:0, behavior:"smooth"});
+  recalcular();
+  if(p===4){ construirVerificacion(); construirAdendum(); redactarConclusion(); }
+}
+function folioNuevo(){
+  const d = new Date();
+  const s = (d.getHours()*3600 + d.getMinutes()*60 + d.getSeconds()).toString().padStart(5,"0");
+  return `DMF-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}${String(d.getDate()).padStart(2,"0")}-${s}`;
+}
+
+/* ==========================================================
+   CÁLCULO
+   ========================================================== */
+const num = el => { const v = parseFloat(el && el.value); return isFinite(v) && v!==0 ? v : null; };
+const gel = (v,f) => document.querySelector(`tr[data-v="${v}"] [data-f="${f}"]`);
+const val = (v,f) => num(gel(v,f));
+const sel = (v,f) => { const e=gel(v,f); return e ? e.value : null; };
+const ORIGENES = {lcc:"LCC del primer trimestre", fum:"fecha de última menstruación",
+  bio:"biometría de este estudio", eco:"ecografía previa"};
+
+let R = {}, ST = {};
+
+function evalIdx(model, v, d){
+  if(v===null) return null;
+  if(d < model.min || d > model.max)
+    return {texto:"EG fuera del rango de la referencia", clase:"c-na", z:null, est:"—"};
+  const z = model.z(v,d), p = pct(z);
+  let clase="c-ok", est="Normal";
+  if(model.dir==="alto"){
+    if(z >  Z95){clase="c-ba"; est="Elevado (>p95)";}
+    else if(z > Z90){clase="c-wa"; est="Límite (>p90)";}
+  } else {
+    if(z < -Z95){clase="c-ba"; est="Disminuido (<p5)";}
+    else if(z < -Z90){clase="c-wa"; est="Límite (<p10)";}
+  }
+  return {z, p, clase, est, texto:`p${fmtPc(p)} · z ${z>=0?"+":""}${z.toFixed(2)}`};
+}
+const chip = r => r ? `<span class="chip ${r.clase}">${r.est}</span> <span style="color:var(--muted)">${r.texto}</span>` : "";
+
+function egDias(){ return (parseInt($("#egSem").value)||0)*7 + (parseInt($("#egDia").value)||0); }
+
+function derivar3(v){
+  const s=val(v,"vsm"), dd=val(v,"vdf"), mm=val(v,"vm");
+  let ip=val(v,"ip"), ir=val(v,"ir"), sd=val(v,"sd");
+  if(ip===null && s!==null && dd!==null && mm!==null && mm>0) ip=(s-dd)/mm;
+  if(ir===null && s!==null && dd!==null && s>0) ir=(s-dd)/s;
+  if(sd===null && s!==null && dd!==null && dd>0) sd=s/dd;
+  return {ip,ir,sd,vsm:s,vdf:dd,vm:mm};
+}
+
+function recalcular(){
+  const d = egDias(), sem = Math.floor(d/7), dia = d%7;
+  $("#egTxt").textContent = `${sem}+${dia}`;
+  $("#egDias").textContent = d;
+  $("#egRecuerdo").textContent = `${sem}+${dia}`;
+  $("#egOrigTxt").textContent = ORIGENES[$("#egOrigen").value];
+  const hoy = $("#fecha").value ? new Date($("#fecha").value+"T12:00") : new Date();
+  const fpp = new Date(hoy.getTime() + (280-d)*86400000);
+  $("#fpp").value = (d>0 && d<320) ? fLarga(fpp) : "";
+
+  const utaD=derivar3("utaD"), utaI=derivar3("utaI"), ua=derivar3("ua"),
+        acm=derivar3("acm"), dvv=derivar3("dv");
+  const vuD=val("vu","diam"), vuVm=val("vu","vm"), vuVp=val("vu","vsm");
+
+  let ipm = (utaD.ip!==null && utaI.ip!==null) ? (utaD.ip+utaI.ip)/2 : (utaD.ip!==null?utaD.ip:utaI.ip);
+  const eIpm = document.querySelector('[data-auto="ipm"]');
+  if(eIpm) eIpm.textContent = ipm!==null ? ipm.toFixed(2) : "—";
+  let rcp = (acm.ip!==null && ua.ip!==null && ua.ip>0) ? acm.ip/ua.ip : null;
+  const eRcp = document.querySelector('[data-auto="rcp"]');
+  if(eRcp) eRcp.textContent = rcp!==null ? rcp.toFixed(2) : "—";
+
+  R = {};
+  R.utaD = evalIdx(UTA, utaD.ip, d);
+  R.utaI = evalIdx(UTA, utaI.ip, d);
+  R.utaM = evalIdx(UTA, ipm, d);
+  R.uaIP = evalIdx(UA, ua.ip, d);
+  R.uaIR = evalIdx(UA_IR, ua.ir, d);
+  R.uaSD = evalIdx(UA_SD, ua.sd, d);
+  R.acmIP= evalIdx(ACM, acm.ip, d);
+  R.rcp  = evalIdx(RCP, rcp, d);
+  R.dv   = evalIdx(DV, dvv.ip, d);
+
+  let vsmR = null;
+  if(acm.vsm!==null && d>=VSM_ACM.min && d<=VSM_ACM.max){
+    const mom = VSM_ACM.mom(acm.vsm,d);
+    let clase="c-ok", est="Normal";
+    if(mom>=1.55){clase="c-ba"; est="≥1.55 MoM";}
+    else if(mom>=1.50){clase="c-ba"; est="≥1.50 MoM";}
+    else if(mom>=1.29){clase="c-wa"; est="≥1.29 MoM";}
+    vsmR = {mom, clase, est, texto:`${mom.toFixed(2)} MoM · mediana ${VSM_ACM.med(d).toFixed(1)} cm/s`};
+  }
+
+  const put = (v,h) => { const c=document.querySelector(`tr[data-v="${v}"] [data-out]`); if(c) c.innerHTML=h; };
+  put("utaD", chip(R.utaD)); put("utaI", chip(R.utaI)); put("utaM", chip(R.utaM));
+  let t=[]; if(R.uaIP) t.push("IP "+chip(R.uaIP));
+  if(R.uaIR) t.push(`<div style="margin-top:3px">IR ${chip(R.uaIR)}</div>`);
+  if(R.uaSD) t.push(`<div style="margin-top:3px">S/D ${chip(R.uaSD)}</div>`);
+  put("ua", t.join(""));
+  t=[]; if(R.acmIP) t.push("IP "+chip(R.acmIP));
+  if(vsmR) t.push(`<div style="margin-top:3px">VSM <span class="chip ${vsmR.clase}">${vsmR.est}</span> <span style="color:var(--muted)">${vsmR.texto}</span></div>`);
+  put("acm", t.join(""));
+  put("rcp", chip(R.rcp));
+  const oa = sel("dv","ondaA");
+  let dvT = chip(R.dv);
+  if(oa==="aus") dvT += `<div style="margin-top:3px"><span class="chip c-ba">Onda «a» ausente</span></div>`;
+  if(oa==="rev") dvT += `<div style="margin-top:3px"><span class="chip c-ba">Onda «a» reversa</span></div>`;
+  put("dv", dvT);
+
+  let vuQ=null, vuT=[];
+  if(vuD!==null && vuVm!==null){
+    vuQ = flujoVU(vuD, vuVm);
+    const r = spurwayPc("flujo", vuQ, d);
+    if(r){ const p=pct(r.z);
+      vuT.push(`<span class="chip ${(p<5||p>95)?"c-wa":"c-ok"}">${vuQ.toFixed(0)} mL/min</span> <span style="color:var(--muted)">p${fmtPc(p)}</span>`); }
+  } else if(vuVp!==null){
+    const r = spurwayPc("vel", vuVp, d);
+    if(r) vuT.push(`<span class="chip c-na">${vuVp} cm/s</span> <span style="color:var(--muted)">p${fmtPc(pct(r.z))}</span>`);
+  }
+  const pu = sel("vu","puls");
+  if(pu==="simple") vuT.push(`<div style="margin-top:3px"><span class="chip c-wa">Pulsación simple</span></div>`);
+  if(pu==="doble")  vuT.push(`<div style="margin-top:3px"><span class="chip c-ba">Pulsación doble</span></div>`);
+  if(pu==="triple") vuT.push(`<div style="margin-top:3px"><span class="chip c-ba">Pulsación triple</span></div>`);
+  put("vu", vuT.join(""));
+
+  /* peso fetal */
+  const dbp=num($("#dbp")), cc=num($("#cc")), ca=num($("#ca")), lf=num($("#lf"));
+  let pf=null;
+  if(dbp&&cc&&ca&&lf){
+    const g = hadlock4(dbp,cc,ca,lf), pp = pesoPc(g,d), p = pct(pp.z);
+    pf = {g, p};
+    $("#pfe").textContent = Math.round(g)+" g · p"+fmtPc(p);
+    const tg = $("#pfeTag");
+    if(p<3){ tg.className="chip c-ba"; tg.textContent="< p3"; }
+    else if(p<10){ tg.className="chip c-wa"; tg.textContent="< p10"; }
+    else if(p>90){ tg.className="chip c-wa"; tg.textContent="> p90"; }
+    else { tg.className="chip c-ok"; tg.textContent="Adecuado para la EG"; }
+  } else { $("#pfe").textContent="—"; $("#pfeTag").className="chip c-na"; $("#pfeTag").textContent="—"; }
+
+  /* líquido */
+  const ila=num($("#ila")), bvm=num($("#bvm")), lt=$("#laTag");
+  let laEst = null;
+  if(ila!==null || bvm!==null){
+    const oli = (bvm!==null&&bvm<2) || (ila!==null&&ila<5);
+    const pol = (bvm!==null&&bvm>8) || (ila!==null&&ila>24);
+    laEst = oli?"oligohidramnios":pol?"polihidramnios":"normal";
+    lt.className = "chip "+(laEst==="normal"?"c-ok":"c-ba");
+    lt.textContent = laEst.charAt(0).toUpperCase()+laEst.slice(1);
+  } else { lt.className="chip c-na"; lt.textContent="—"; }
+
+  /* perfil biofísico */
+  const vs = $$(".pbf").map(s=>parseInt(s.value)).filter(v=>v>=0);
+  const tot = vs.reduce((a,b)=>a+b,0), maxi = vs.length*2;
+  $("#pbfTot").textContent = maxi ? `${tot}/${maxi}` : "—";
+  const pt = $("#pbfTag"); const frac = maxi ? tot/maxi : 1;
+  let pbfEst = null;
+  if(!maxi){ pt.className="chip c-na"; pt.textContent="—"; }
+  else if(frac>=1){ pt.className="chip c-ok"; pt.textContent="Normal"; pbfEst="normal"; }
+  else if(frac>=0.75){ pt.className="chip c-wa"; pt.textContent="Equívoco"; pbfEst="equívoco"; }
+  else { pt.className="chip c-ba"; pt.textContent="Anormal"; pbfEst="anormal"; }
+
+  ST = {d, sem, dia, utaD, utaI, ua, acm, dvv, ipm, rcp, vsmR, oa, pu, pf,
+        vuQ, vuD, vuVm, vuVp, ila, bvm, laEst, tot, maxi, pbfEst};
+  alertas();
+}
+
+function alertas(){
+  const A=[], fd=$("#fdAU").value;
+  if(fd==="aus") A.push("Flujo diastólico AUSENTE en arteria umbilical.");
+  if(fd==="rev") A.push("Flujo diastólico REVERSO en arteria umbilical.");
+  if(ST.oa==="aus") A.push("Onda «a» AUSENTE en ductus venoso.");
+  if(ST.oa==="rev") A.push("Onda «a» REVERSA en ductus venoso.");
+  if(ST.pu==="doble"||ST.pu==="triple") A.push("Pulsaciones venosas umbilicales dobles o triples.");
+  if(ST.vsmR && ST.vsmR.mom>=1.5) A.push("VSM de arteria cerebral media ≥ 1.50 MoM.");
+  $("#alertas").innerHTML = A.map(t=>`<div class="alerta">⚠ ${t}</div>`).join("");
+}
+
+/* ==========================================================
+   VERIFICACIÓN
+   ========================================================== */
+function itemsVerif(){
+  const I=[], f=(k,v)=>{ if(v!==null && v!==undefined && v!=="") I.push([k,v]); };
+  f("Edad gestacional", `${ST.sem}+${ST.dia} semanas · por ${ORIGENES[$("#egOrigen").value]}`);
+  if(ST.pf) f("Peso fetal estimado", `${Math.round(ST.pf.g)} g · percentil ${fmtPc(ST.pf.p)}`);
+  if(num($("#fcf"))) f("Frecuencia cardiaca fetal", num($("#fcf"))+" lpm");
+  if(ST.ila!==null) f("Índice de líquido amniótico", ST.ila+" cm");
+  if(ST.maxi) f("Perfil biofísico", `${ST.tot}/${ST.maxi}`);
+  if(ST.ipm!==null) f("IP medio de arterias uterinas", ST.ipm.toFixed(2)+(R.utaM?` · p${fmtPc(R.utaM.p)}`:""));
+  if(ST.ua.ip!==null) f("IP de arteria umbilical", ST.ua.ip.toFixed(2)+(R.uaIP?` · p${fmtPc(R.uaIP.p)}`:""));
+  if(ST.ua.ir!==null) f("IR de arteria umbilical", ST.ua.ir.toFixed(2));
+  if(ST.ua.sd!==null) f("S/D de arteria umbilical", ST.ua.sd.toFixed(2));
+  f("Flujo diastólico umbilical", {pos:"presente y anterógrado",aus:"AUSENTE",rev:"REVERSO"}[$("#fdAU").value]);
+  if(ST.acm.ip!==null) f("IP de arteria cerebral media", ST.acm.ip.toFixed(2)+(R.acmIP?` · p${fmtPc(R.acmIP.p)}`:""));
+  if(ST.vsmR) f("VSM de arteria cerebral media", `${ST.acm.vsm} cm/s · ${ST.vsmR.mom.toFixed(2)} MoM`);
+  if(ST.rcp!==null) f("Índice cerebroplacentario", ST.rcp.toFixed(2)+(R.rcp?` · p${fmtPc(R.rcp.p)}`:""));
+  if(ST.dvv.ip!==null) f("IPV de ductus venoso", ST.dvv.ip.toFixed(2)+(R.dv?` · p${fmtPc(R.dv.p)}`:""));
+  f("Onda «a» del ductus venoso", {pos:"positiva",aus:"AUSENTE",rev:"REVERSA"}[ST.oa]);
+  if(ST.vuQ) f("Flujo de vena umbilical", Math.round(ST.vuQ)+" mL/min");
+  return I;
+}
+function construirVerificacion(){
+  const I = itemsVerif();
+  $("#verif").innerHTML = I.map((x,i)=>
+    `<label class="vfila pend"><input type="checkbox" class="vchk" onchange="chkVerif()">
+     <span style="flex:1"><b style="font-weight:600">${x[0]}:</b> ${x[1]}</span></label>`).join("");
+  chkVerif();
+}
+function marcarTodo(v){ $$(".vchk").forEach(c=>c.checked=v); chkVerif(); }
+function chkVerif(){
+  const c = $$(".vchk"), ok = c.filter(x=>x.checked).length;
+  c.forEach(x=> x.closest(".vfila").classList.toggle("pend", !x.checked));
+  $("#verifCnt").textContent = `${ok} de ${c.length} confirmados`;
+  const listo = c.length>0 && ok===c.length;
+  $("#btnPdf").disabled = !listo;
+  $("#emisionMsg").textContent = listo ? "" : "Confirme todos los valores para poder emitir el informe.";
+}
+
+/* ==========================================================
+   ADENDUM (frases del machote C4)
+   ========================================================== */
+const ADENDUM = [
+  {id:"ua95",  t:"Arteria umbilical con índice de pulsatilidad por encima del percentil 95, sugerente de aumento de resistencia placentaria (insuficiencia placentaria).",
+   sug:()=> R.uaIP && R.uaIP.z>Z95},
+  {id:"aedf",  t:"Arteria umbilical con flujo diastólico ausente (AEDF), indicador de compromiso placentario grave.",
+   sug:()=> $("#fdAU").value==="aus"},
+  {id:"redf",  t:"Arteria umbilical con flujo diastólico reverso (REDF), indicador de compromiso placentario grave.",
+   sug:()=> $("#fdAU").value==="rev"},
+  {id:"redis", t:"Arteria cerebral media con índice de pulsatilidad por debajo del percentil 5 e índice cerebroplacentario reducido, compatible con REDISTRIBUCIÓN («brain sparing»).",
+   sug:()=> (R.acmIP && R.acmIP.z<-Z95) || (R.rcp && R.rcp.z<-Z95)},
+  {id:"anemia",t:"Arteria cerebral media con velocidad sistólica máxima ≥ 1.5 MoM, sugestivo de ANEMIA FETAL moderada a grave.",
+   sug:()=> ST.vsmR && ST.vsmR.mom>=1.5},
+  {id:"preec", t:"Arterias uterinas con índice de pulsatilidad medio por encima del percentil 95 y escotadura protodiastólica bilateral, asociado a mayor riesgo de preeclampsia y restricción del crecimiento.",
+   sug:()=> (R.utaM && R.utaM.z>Z95) && $("#notch").value==="bi"},
+  {id:"dvalt", t:"Ductus venoso con onda «a» ausente o reversa, indicador de deterioro hemodinámico avanzado.",
+   sug:()=> ST.oa==="aus" || ST.oa==="rev"},
+  {id:"vupuls",t:"Vena umbilical con flujo pulsátil, hallazgo tardío en la secuencia de deterioro fetal.",
+   sug:()=> ST.pu && ST.pu!=="no"},
+  {id:"rciu",  t:"Peso fetal estimado por debajo del percentil 10 para la edad gestacional, sugerente de RESTRICCIÓN DEL CRECIMIENTO.",
+   sug:()=> ST.pf && ST.pf.p<10},
+  {id:"oligo", t:"El índice de líquido amniótico se observó disminuido, compatible con OLIGOHIDRAMNIOS.",
+   sug:()=> ST.laEst==="oligohidramnios"},
+  {id:"poli",  t:"El índice de líquido amniótico se observó aumentado, compatible con POLIHIDRAMNIOS.",
+   sug:()=> ST.laEst==="polihidramnios"},
+  {id:"circ",  t:"Se observó circular del cordón umbilical al cuello fetal durante el estudio.",
+   sug:()=> $("#circular").value!=="no observada"},
+  {id:"podal", t:"El feto se encuentra en presentación podálica o situación transversa al momento del estudio.",
+   sug:()=> $("#pres").value==="podálica" || $("#situ").value==="transversa"},
+  {id:"previa",t:"La placenta se inserta cerca del orificio cervical interno o lo cubre, compatible con PLACENTA PREVIA o de inserción baja.",
+   sug:()=> $("#plac").value==="previa"}
+];
+let ADSEL = {};
+function construirAdendum(){
+  const prev = {...ADSEL};
+  $("#adendum").innerHTML = ADENDUM.map(a=>{
+    let s=false; try{ s = !!a.sug(); }catch(e){}
+    const marc = (a.id in prev) ? prev[a.id] : s;
+    ADSEL[a.id] = marc;
+    return `<label class="adit${s?" sug":""}"><input type="checkbox" data-ad="${a.id}" ${marc?"checked":""}
+      onchange="ADSEL['${a.id}']=this.checked;redactarConclusion()">
+      <span>${s?"<b>Sugerido · </b>":""}${a.t}</span></label>`;
+  }).join("");
+}
+
+/* ==========================================================
+   REDACCIÓN (estilo del machote C4 / C1)
+   ========================================================== */
+const MES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto",
+             "septiembre","octubre","noviembre","diciembre"];
+function fLarga(d){ return `${d.getDate()} de ${MES[d.getMonth()]} de ${d.getFullYear()}`; }
+function fCorta(v){ if(!v) return ""; const d=new Date(v+"T12:00"); return isNaN(d)?v:
+  `${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}/${d.getFullYear()}`; }
+const n2 = v => v===null||v===undefined ? "___" : (Math.round(v*100)/100).toFixed(2);
+
+function txtProtocolo(){
+  const P=[], pf=ST.pf;
+  let s = `Embarazo simple, feto único vivo, en curso de ${ST.sem} semanas ${ST.dia} días`;
+  if($("#fpp").value) s += `, con fecha probable de parto para el ${$("#fpp").value}`;
+  s += ". ";
+  if(pf) s += `Peso fetal estimado ${Math.round(pf.g)} gramos (percentil ${fmtPc(pf.p)}), ${pf.p<10?"por debajo del percentil 10 para la edad gestacional":pf.p>90?"por encima del percentil 90 para la edad gestacional":"normal para la edad gestacional"}. `;
+  const fcf = num($("#fcf"));
+  if(fcf) s += `Frecuencia cardiaca fetal ${fcf} latidos por minuto, ritmo ${$("#ritmo").value}. `;
+  if(ST.ila!==null) s += `Índice de líquido amniótico ${ST.ila} cm, ${ST.laEst==="normal"?"normal":ST.laEst}. `;
+  else if(ST.bvm!==null) s += `Bolsillo vertical mayor ${ST.bvm} cm, ${ST.laEst==="normal"?"normal":ST.laEst}. `;
+  P.push(s.trim());
+  let t = `Placenta de localización ${$("#plac").value}, grado ${$("#grado").value} de maduración. `;
+  t += `Situación ${$("#situ").value}, presentación ${$("#pres").value} al momento del estudio. `;
+  t += `Cordón umbilical ${$("#cordon").value}. `;
+  t += `Cérvix ${$("#cervix").value}`;
+  const lc = num($("#lcerv")); if(lc) t += `, longitud cervical ${lc} mm`;
+  t += ".";
+  P.push(t);
+  return P;
+}
+const PBF_TXT = [
+  ["movimientos respiratorios presentes",        "movimientos respiratorios ausentes"],
+  ["movimientos corporales presentes",           "menos de tres movimientos corporales"],
+  ["tono fetal conservado",                      "tono fetal ausente"],
+  ["líquido amniótico adecuado",                 "bolsillo vertical mayor menor o igual a 2 cm"],
+  ["registro cardiotocográfico reactivo",        "registro cardiotocográfico no reactivo"]
+];
+function txtPerfil(){
+  if(!ST.maxi) return [];
+  const v = $$(".pbf").map(s=>parseInt(s.value));
+  const partes = [];
+  v.forEach((x,i)=>{ if(x>=0) partes.push(PBF_TXT[i][x===2?0:1]); });
+  const sinNst = v[4] < 0;
+  let s = `Perfil biofísico: ${partes.join("; ")}. Puntaje ${ST.tot} de ${ST.maxi}`;
+  if(sinNst) s += ", sin registro cardiotocográfico";
+  s += `, ${ST.pbfEst}.`;
+  return [s];
+}
+function txtDoppler(){
+  const L=[], fd=$("#fdAU").value;
+  const pOf = r => r ? ` (percentil ${fmtPc(r.p)})` : "";
+
+  if(ST.ipm!==null){
+    let s = `Arterias uterinas: índice de pulsatilidad medio ${n2(ST.ipm)}${pOf(R.utaM)}`;
+    const nt = $("#notch").value;
+    s += nt==="no" ? ", sin escotadura protodiastólica." :
+         nt==="uni" ? ", con escotadura protodiastólica unilateral." :
+                      ", con escotadura protodiastólica bilateral.";
+    L.push(s);
+  }
+  if(ST.ua.ip!==null || fd!=="pos"){
+    let s = "Arteria umbilical: ";
+    s += fd==="pos" ? "flujo anterógrado con diástole presente" :
+         fd==="aus" ? "flujo diastólico AUSENTE" : "flujo diastólico REVERSO";
+    const partes=[];
+    if(ST.ua.ip!==null) partes.push(`IP ${n2(ST.ua.ip)}${pOf(R.uaIP)}`);
+    if(ST.ua.ir!==null) partes.push(`IR ${n2(ST.ua.ir)}${pOf(R.uaIR)}`);
+    if(ST.ua.sd!==null) partes.push(`S/D ${n2(ST.ua.sd)}${pOf(R.uaSD)}`);
+    if(partes.length) s += "; "+partes.join(", ");
+    const alto = R.uaIP && R.uaIP.z>Z95;
+    s += fd!=="pos" ? ", con compromiso placentario grave." :
+         alto ? ", con aumento de la resistencia placentaria." :
+                ", normales, con funcionalidad placentaria normal.";
+    s += ` Muestreo en ${$("#sitioUA").value}.`;
+    L.push(s);
+  }
+  if(ST.acm.ip!==null || ST.vsmR){
+    let s = "Arteria cerebral media: ";
+    const partes=[];
+    if(ST.vsmR) partes.push(`VSM ${ST.acm.vsm} cm/s (${ST.vsmR.mom.toFixed(2)} MoM)`);
+    if(ST.acm.ip!==null) partes.push(`IP ${n2(ST.acm.ip)}${pOf(R.acmIP)}`);
+    s += partes.join(", ");
+    const bajo = R.acmIP && R.acmIP.z<-Z95, anem = ST.vsmR && ST.vsmR.mom>=1.5;
+    s += bajo ? ", con vasodilatación cerebral." :
+         anem ? ", con velocidad elevada sugestiva de anemia fetal." :
+                ", normales, sin redistribución, anemia ni signos de hipoxia.";
+    L.push(s);
+  }
+  if(ST.rcp!==null){
+    const bajo = R.rcp && R.rcp.z<-Z95;
+    L.push(`Índice cerebroplacentario: ${n2(ST.rcp)}${pOf(R.rcp)}, ${bajo?"disminuido":"normal"}.`);
+  }
+  {
+    let s = "Ductus venoso: ";
+    s += ST.oa==="pos" ? "onda «a» positiva (anterógrada)" :
+         ST.oa==="aus" ? "onda «a» AUSENTE" : "onda «a» REVERSA";
+    if(ST.dvv.ip!==null) s += `, IPV ${n2(ST.dvv.ip)}${pOf(R.dv)}`;
+    s += ST.oa==="pos" && !(R.dv && R.dv.z>Z95) ? ", de morfología normal." : ".";
+    L.push(s);
+  }
+  {
+    let s = "Vena umbilical: ";
+    s += ST.pu==="no" ? "flujo continuo, no pulsátil" :
+         `flujo con pulsación ${ST.pu}`;
+    if(ST.vuQ) s += `, flujo ${Math.round(ST.vuQ)} mL/min`;
+    if(ST.vuD) s += `, diámetro ${ST.vuD} mm`;
+    s += ".";
+    L.push(s);
+  }
+  return L;
+}
+function adendumSel(){ return ADENDUM.filter(a=>ADSEL[a.id]).map(a=>a.t); }
+
+function redactarConclusion(forzar){
+  const el = $("#concl");
+  if(el.value.trim() && !forzar && el.dataset.tocado==="1") return;
+  const C=[];
+  C.push(`Embarazo simple de ${ST.sem} semanas ${ST.dia} días, feto vivo.`);
+  const anor = adendumSel().length>0;
+  if(!anor){
+    C.push("Flujometría Doppler maternofetal dentro de límites normales para la edad gestacional, con perfusión placentaria conservada y sin redistribución.");
+  } else {
+    C.push("Flujometría Doppler maternofetal con los hallazgos descritos.");
+  }
+  if(ST.maxi) C.push(`Perfil biofísico ${ST.tot} de ${ST.maxi}, ${ST.pbfEst}.`
+    + (ST.pbfEst==="equívoco" ? " Se sugiere repetir en 24 horas." : ""));
+  if(ST.pf && ST.pf.p<10) C.push("Peso fetal por debajo del percentil 10 para la edad gestacional.");
+  el.value = C.map((t,i)=>`${i+1}. ${t}`).join("\n");
+  vistaPrevia();
+}
+$("#concl").addEventListener("input", function(){ this.dataset.tocado="1"; vistaPrevia(); });
+
+/* ==========================================================
+   DOCUMENTO
+   ========================================================== */
+function docHTML(){
+  const g = id => ($("#"+id).value||"").trim();
+  const kv = a => `<div class="doc-kv">${a.filter(Boolean).map(([k,v])=>`<span><i>${k}:</i> <b>${v}</b></span>`).join("")}</div>`;
+  const ante = [];
+  if(g("aPe")==="Sí") ante.push("preeclampsia previa");
+  if(g("aHta")==="Sí") ante.push("hipertensión crónica");
+  if(g("aDm")==="Sí") ante.push("diabetes");
+  if(g("aAsa")==="Sí") ante.push("aspirina en dosis baja");
+  if(g("aOtro")) ante.push(g("aOtro"));
+
+  let h = `<div class="pg">`;
+  h += `<div class="doc-tit">ULTRASONIDO DOPPLER MATERNOFETAL</div>`;
+  h += `<div class="doc-sub">Informe No. ${g("folio")} &nbsp;·&nbsp; ${g("sede")} &nbsp;·&nbsp; ${fCorta(g("fecha"))}</div>`;
+  h += kv([["Paciente", g("pac")||"—"], g("edad")&&["Edad", g("edad")+" años"],
+           g("exp")&&["Expediente", g("exp")], g("gpca")&&["Antecedentes obstétricos", g("gpca")]]);
+  h += kv([["Médico referente", g("ref")||"—"], ["Indicación", g("indic")||"—"]]);
+  h += kv([["Edad gestacional", `${ST.sem} semanas ${ST.dia} días`],
+           ["Por", ORIGENES[g("egOrigen")]],
+           $("#fpp").value&&["Fecha probable de parto", $("#fpp").value]]);
+  if(ante.length) h += kv([["Antecedentes", ante.join(", ")]]);
+
+  h += `<div class="doc-sec">TÉCNICA</div>`;
+  h += `<p class="doc-p">Flujometría espectral según ISUOG (ángulo cercano a 0°, sin movimientos fetales al momento de medir, índice térmico ≤ 1.0). Percentiles calculados para la edad gestacional según tablas de la Fetal Medicine Foundation e ISUOG.</p>`;
+
+  h += `<div class="doc-sec">HALLAZGOS</div>`;
+  txtProtocolo().forEach(p=> h += `<p class="doc-p">${p}</p>`);
+  txtPerfil().forEach(p=> h += `<p class="doc-p">${p}</p>`);
+  h += `<div class="doc-sec">FLUJOMETRÍA DOPPLER</div>`;
+  txtDoppler().forEach(p=> h += `<p class="doc-p">${p}</p>`);
+
+  const ad = adendumSel();
+  if(ad.length){
+    h += `<div class="doc-sec">HALLAZGOS RELEVANTES</div>`;
+    ad.forEach(t=> h += `<p class="doc-li">— ${t}</p>`);
+  }
+
+  h += `<div class="doc-sec">CONCLUSIONES</div>`;
+  (g("concl")||"").split("\n").filter(x=>x.trim()).forEach(l=> h += `<p class="doc-li">${l}</p>`);
+  if(g("reco")) h += `<p class="doc-p" style="margin-top:2mm">${g("reco")}</p>`;
+
+  const firma = g("firmante")==="img"
+    ? `<img src="assets/firma-lizama.png" alt="">`
+    : `<div style="height:22mm"></div>`;
+  h += `<div class="doc-firmas">
+      <div class="doc-firma"><div style="height:22mm"></div><div class="ln"></div>
+        <b>${g("operador")||"—"}</b><span>Estudio realizado por</span></div>
+      <div class="doc-firma">${firma}<div class="ln"></div>
+        <b>Dr. Julio Abraham Lizama Tuches</b>
+        <span>MSc. Radiología e Imágenes Diagnósticas · Colegiado 17,686</span>
+        <span>Informado por</span></div>
+    </div>`;
+  h += `<div class="doc-pie">Valores transcritos de las imágenes del estudio y verificados por el operador. Los percentiles corresponden a la edad gestacional declarada y no sustituyen el juicio clínico. Este informe debe interpretarse en el contexto obstétrico de la paciente.</div>`;
+  h += `</div>`;
+
+  /* hojas de imágenes */
+  if(GAL.length){
+    const n = parseInt($("#galN").value)||6, hojas = Math.ceil(GAL.length/n);
+    for(let p=0;p<hojas;p++){
+      h += `<div class="pg"><div class="im-hd">
+        <span>${g("pac")||"Paciente"} · ${ST.sem}+${ST.dia} sem · ${fCorta(g("fecha"))}</span>
+        <span>Informe ${g("folio")} · imágenes ${p+1} de ${hojas}</span></div>
+        <div class="im-grid n${n}">`;
+      for(let i=p*n; i<Math.min(GAL.length,(p+1)*n); i++){
+        h += `<figure><img src="${GAL[i].src}" alt="">`+
+             (GAL[i].cap ? `<figcaption>${GAL[i].cap}</figcaption>` : "")+`</figure>`;
+      }
+      h += `</div></div>`;
+    }
+  }
+  return h;
+}
+/* El margen superior se aplica como margen de página, no como relleno del
+   primer bloque, para que TODAS las hojas respeten el alto del membrete. */
+function aplicarMargen(){
+  const mt = Math.max(0, Math.min(80, parseInt($("#margen").value)||26));
+  let st = document.getElementById("estilo-pagina");
+  if(!st){ st = document.createElement("style"); st.id="estilo-pagina"; document.head.appendChild(st); }
+  st.textContent = `@media print{ @page{ size:Letter; margin:${mt}mm 18mm 16mm; } }`;
+}
+function vistaPrevia(){
+  const h = docHTML();
+  const tmp = document.createElement("div"); tmp.innerHTML = h;
+  const pg1 = tmp.querySelector(".pg");
+  $("#prev").innerHTML = pg1 ? pg1.innerHTML
+    .replace(/class="doc-tit"/g,'class="doc-tit" style="text-align:center;font-weight:700;letter-spacing:.06em"')
+    : "";
+  $("#prev").querySelectorAll(".doc-sec").forEach(e=>e.className="sec");
+  $("#prev").querySelectorAll(".doc-p,.doc-li").forEach(e=>e.className="");
+  $("#prev").querySelectorAll(".doc-kv").forEach(e=>e.className="kv");
+  const im = $("#prev").querySelector(".doc-firma img");
+  if(im) im.style.height="46px";
+}
+function emitir(){
+  const falta = [];
+  if(!($("#pac").value||"").trim()) falta.push("nombre de la paciente");
+  if(!($("#ref").value||"").trim()) falta.push("médico referente");
+  if(!($("#indic").value||"").trim()) falta.push("indicación del estudio");
+  if(falta.length){ $("#emisionMsg").textContent = "Falta: "+falta.join(", ")+"."; irA(1); return; }
+  $("#emisionMsg").textContent = "";
+  aplicarMargen();
+  $("#hoja").innerHTML = docHTML();
+  setTimeout(()=>window.print(), 120);
+}
+
+/* ==========================================================
+   IMÁGENES
+   ========================================================== */
+var GAL = [];
+const GMAX = 1400, GQ = 0.86;
+function galReducir(url, cb){
+  const im = new Image();
+  im.onload = () => {
+    let w=im.naturalWidth, h=im.naturalHeight;
+    const k = Math.max(w,h)>GMAX ? GMAX/Math.max(w,h) : 1;
+    w=Math.round(w*k); h=Math.round(h*k);
+    const c=document.createElement("canvas"); c.width=w; c.height=h;
+    const x=c.getContext("2d"); x.fillStyle="#000"; x.fillRect(0,0,w,h); x.drawImage(im,0,0,w,h);
+    try{ cb(c.toDataURL("image/jpeg",GQ)); }catch(e){ cb(url); }
+  };
+  im.onerror = () => cb(url);
+  im.src = url;
+}
+function galAgregar(files){
+  [...files].filter(f=>f.type && f.type.indexOf("image/")===0).forEach(f=>{
+    const r=new FileReader();
+    r.onload = e => galReducir(e.target.result, u=>{ GAL.push({src:u,cap:""}); galRender(); });
+    r.readAsDataURL(f);
+  });
+}
+function galMover(i,d){ const j=i+d; if(j<0||j>=GAL.length) return;
+  const t=GAL[i]; GAL[i]=GAL[j]; GAL[j]=t; galRender(); }
+function galQuitar(i){ GAL.splice(i,1); galRender(); }
+function galVaciar(){ if(GAL.length && confirm("¿Quitar las "+GAL.length+" imágenes?")){ GAL=[]; galRender(); } }
+function galRender(){
+  $("#galN2").textContent = GAL.length;
+  $("#gal").innerHTML = GAL.map((g,i)=>
+    `<figure class="gi"><span class="gnum">${i+1}</span>
+      <span class="gtools"><button onclick="galMover(${i},-1)">&#9664;</button>
+      <button onclick="galMover(${i},1)">&#9654;</button>
+      <button onclick="galQuitar(${i})">&#10005;</button></span>
+      <img src="${g.src}" alt="">
+      <figcaption><div class="cap" contenteditable="true" data-i="${i}"
+        data-ph="Vaso o hallazgo…">${g.cap}</div></figcaption></figure>`).join("");
+  $$("#gal .cap").forEach(el=>{
+    el.addEventListener("input", ()=>{ GAL[+el.dataset.i].cap = el.textContent.trim(); });
+    el.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); el.blur(); } });
+  });
+}
+document.addEventListener("DOMContentLoaded", ()=>{
+  const fi=$("#fi"), dz=$("#dz");
+  fi.addEventListener("change", e=>{ galAgregar(e.target.files); e.target.value=""; });
+  ["dragenter","dragover"].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.add("over");}));
+  ["dragleave","drop"].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.remove("over");}));
+  dz.addEventListener("drop", e=>{ if(e.dataTransfer) galAgregar(e.dataTransfer.files); });
+});
+document.addEventListener("dragover", e=>e.preventDefault());
+document.addEventListener("drop", e=>{
+  if(e.target.closest && e.target.closest("#dz")) return;
+  e.preventDefault();
+  if(e.dataTransfer && e.dataTransfer.files.length) galAgregar(e.dataTransfer.files);
+});
+document.addEventListener("paste", e=>{
+  if(e.target.isContentEditable || /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+  if(e.clipboardData && e.clipboardData.files.length){ e.preventDefault(); galAgregar(e.clipboardData.files); }
+});
+
+/* ==========================================================
+   BORRADOR
+   ========================================================== */
+function guardarBorrador(){
+  const d = {v:1, campos:{}, adendum:ADSEL};
+  $$("#app input, #app select, #app textarea").forEach(el=>{
+    if(el.type==="file"||el.type==="checkbox") return;
+    if(!el.id && !el.dataset.f) return;
+    const k = el.id || (el.closest("tr").dataset.v+"."+el.dataset.f);
+    d.campos[k] = el.value;
+  });
+  const nom = ($("#pac").value||"informe").replace(/[^\wáéíóúñÁÉÍÓÚÑ ]/g,"").trim().replace(/\s+/g,"_");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(d)],{type:"application/json"}));
+  a.download = `borrador_${nom}_${$("#folio").value}.json`;
+  a.click(); URL.revokeObjectURL(a.href);
+  alert("Borrador descargado. No incluye las imágenes.");
+}
+
+/* ==========================================================
+   ARRANQUE
+   ========================================================== */
+document.addEventListener("input", e=>{ if(e.target.closest("#app")) { recalcular();
+  if(PASO===4){ construirAdendum(); redactarConclusion(); vistaPrevia(); } } });
+document.addEventListener("change", e=>{ if(e.target.closest("#app")) { recalcular();
+  if(PASO===4){ construirVerificacion(); construirAdendum(); redactarConclusion(); vistaPrevia(); } } });
+window.addEventListener("beforeunload", e=>{
+  if(SESION && (GAL.length || ($("#pac").value||"").trim())){ e.preventDefault(); e.returnValue=""; }
+});
+</script>
+</body></html>
