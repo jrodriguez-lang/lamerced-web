@@ -18,6 +18,11 @@
   force = true
 
 [[redirects]]
+  from = "/post/la-cirugía-milagrosa-que-me-salvó-la-vida"
+  to = "/blog/la-cirugia-que-me-salvo-la-vida/"
+  status = 301
+
+[[redirects]]
   from = "/post/*"
   to = "/blog/"
   status = 301
