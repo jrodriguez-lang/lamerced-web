@@ -184,6 +184,34 @@ a{text-decoration:none;color:inherit}
 .btn svg{flex:none}
 a:focus-visible,.btn:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
 
+/* ---------- DIFERENCIA ---------- */
+.dif{padding-block:clamp(6px,2vw,14px) clamp(34px,6vw,58px)}
+.difpanel{
+  background:linear-gradient(155deg,#0A245D 0%,#071A46 100%);
+  border-radius:22px;overflow:hidden;
+  display:grid;grid-template-columns:1fr;
+}
+@media(min-width:860px){.difpanel{grid-template-columns:0.92fr 1.08fr}}
+.difpic{position:relative;aspect-ratio:4/3;overflow:hidden;background:#071A46}
+@media(min-width:860px){.difpic{aspect-ratio:auto;min-height:100%}}
+.difpic img{width:100%;height:100%;object-fit:cover;object-position:52% 40%}
+.difbody{padding:clamp(24px,4.6vw,40px)}
+.difbody .eyebrow{
+  font-size:11.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+  color:#6FC6DC;margin-bottom:10px;
+}
+.difbody h2{
+  font-family:'Playfair Display',Georgia,serif;font-weight:500;
+  font-size:clamp(23px,5vw,33px);line-height:1.14;color:#fff;text-wrap:balance;
+}
+.difbody .lead{color:#D5E4EC;font-size:clamp(15px,3.2vw,16.5px);margin-top:12px;max-width:52ch}
+.tres{list-style:none;margin-top:20px;display:grid;gap:12px}
+.tres li{border-left:2px solid rgba(111,198,220,.55);padding:2px 0 2px 14px}
+.tres b{display:block;color:#fff;font-size:14.5px;font-weight:600}
+.tres span{display:block;color:#B9CCDD;font-size:14px;margin-top:2px}
+.difbody .close{color:#D5E4EC;font-size:clamp(15px,3.2vw,16.5px);margin-top:20px;max-width:52ch}
+.difbody .close b{color:#fff;font-weight:600}
+
 /* ---------- CONFIANZA ---------- */
 .trust{background:#F7FAFC;border-block:1px solid var(--line)}
 .trust .row{
@@ -305,6 +333,45 @@ footer .legal{max-width:60ch;opacity:.8;line-height:1.5}
           </a>
         </div>
       </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="dif">
+  <div class="wrap">
+    <div class="difpanel">
+
+      <div class="difpic">
+        <img src="assets/dif-ciencia.jpg" loading="lazy" decoding="async" alt="Una madre muestra a su hija mayor las imágenes impresas del ultrasonido de su bebé" width="1400" height="1050">
+      </div>
+
+      <div class="difbody">
+        <div class="eyebrow">Lo que nos diferencia</div>
+        <h2>¿Por qué nos diferenciamos?</h2>
+        <p class="lead">Porque no nos conformamos con hacer el ultrasonido. Buscamos la causa, el origen de lo que está pasando.</p>
+
+        <ul class="tres">
+          <li>
+            <b>La física del ultrasonido</b>
+            <span>Cómo se forma la imagen, qué la mejora y qué la engaña.</span>
+          </li>
+          <li>
+            <b>La anatomía normal</b>
+            <span>Con todas sus variantes, para no confundir lo sano con lo enfermo.</span>
+          </li>
+          <li>
+            <b>La huella de cada enfermedad</b>
+            <span>Los signos propios con los que cada una se deja ver.</span>
+          </li>
+          <li>
+            <b>El trato que mereces</b>
+            <span>Un trato humano y digno para cada paciente, y el tiempo para enseñarte todo lo que quieres ver de tu bebé.</span>
+          </li>
+        </ul>
+
+        <p class="close">Dedicarnos solo a ultrasonido nos permite unir todo esto en cada estudio. Así le sacamos al cuerpo mucha más información de la que entrega una revisión de rutina, y el <b>diagnóstico es mucho más certero</b>.</p>
+      </div>
 
     </div>
   </div>
